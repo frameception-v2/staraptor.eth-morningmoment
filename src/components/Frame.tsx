@@ -31,9 +31,12 @@ export default function Frame() {
 
   const handleCheckin = async () => {
     try {
-      await sdk.actions.post({
-        target: "/checkin",
-        state: context ? { fid: context.fid } : undefined,
+      // Add the current frame to the stack
+      await sdk.actions.addFrame({
+        url: "/checkin",
+        post: {
+          fid: context?.fid,
+        },
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to check in");
